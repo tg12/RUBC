@@ -26,6 +26,9 @@ ua = UserAgent()
 
 top_lst = []
 thread_lst = []
+MAX_THREADS = 5
+sema = threading.Semaphore(value=MAX_THREADS)
+
 blacklisted_words = ["localhost", "mail.", "ntp.", "ftp.", "smtp.", "imap."]
 scan_methods = ["quick", "deep", "ultimate"]
 SCAN_METHOD_SET = ""
@@ -35,6 +38,7 @@ print("[+]visit ... https://github.com/tg12/ for more info about this tools and 
 
 def check_response(site):
     try:
+        sema.acquire()
         r = requests.get("http://" + str(each), headers=headers, timeout=5)
         if int(r.status_code) == 200:
             print(colored("[+]debug, ok", 'green'))
@@ -44,8 +48,10 @@ def check_response(site):
             print(colored("[+]debug, !!Your ISP maybe censoring you!!", 'red'))
             print(colored("[+]debug, !!WARNING!!", 'yellow'))
             print(r.text)
+        sema.release()
     except BaseException:
         pass
+        sema.release()
 
 
 while True:
