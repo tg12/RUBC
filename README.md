@@ -9,14 +9,18 @@ example...
 
 Three scanning modes, quick, Not really useful for really oppressive regimes (Mainly use this for testing), deep ... better or ultimate.
 
-Install dependencies, run with Python3 
+Install dependencies, run with Python3. Cross platform just the nice pretty colors wont work on Windows
 
 Useful links
 
 https://www.eff.org/
+
 https://www.bleepingcomputer.com/news/software/mozilla-firefox-expands-dns-over-https-doh-test-to-release-channel/
+
 https://en.wikipedia.org/wiki/Virtual_private_network
+
 https://tails.boum.org/about/index.en.html
+
 https://www.torproject.org/
 
 
