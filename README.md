@@ -8,8 +8,18 @@ example...
 ![alt text](https://github.com/tg12/RUBC/blob/master/alert.PNG)
 
 Three scanning modes, quick, Not really useful for really oppressive regimes (Mainly use this for testing), deep ... better or ultimate.
-
 Install dependencies, run with Python3. Cross platform just the nice pretty colors wont work on Windows
+
+Commands in order to get started
+```
+git clone https://github.com/tg12/RUBC.git
+cd RUBC
+unrar top-1m.csv.zip
+pip3 install fake_useragent
+pip3 install termcolor
+python3 http_451.py
+```
+
 
 Useful links
 
