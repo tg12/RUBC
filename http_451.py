@@ -1,22 +1,4 @@
-'''THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND
-NON-INFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR ANYONE
-DISTRIBUTING THE SOFTWARE BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.'''
 
-# Bitcoin Cash (BCH)   qpz32c4lg7x7lnk9jg6qg7s4uavdce89myax5v5nuk
-# Ether (ETH) -        0x843d3DEC2A4705BD4f45F674F641cE2D0022c9FB
-# Litecoin (LTC) -     Lfk5y4F7KZa9oRxpazETwjQnHszEPvqPvu
-# Bitcoin (BTC) -      34L8qWiQyKr8k4TnHDacfjbaSqQASbBtTd
-
-# contact :- github@jamessawyer.co.uk
-
-
-# get spreadsheet from here http://s3-us-west-1.amazonaws.com/umbrella-static/index.html
-# more info https://en.wikipedia.org/wiki/HTTP_451
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND
@@ -32,13 +14,20 @@ SOFTWARE.'''
 # Litecoin (LTC) -     Lfk5y4F7KZa9oRxpazETwjQnHszEPvqPvu
 # Bitcoin (BTC) -      34L8qWiQyKr8k4TnHDacfjbaSqQASbBtTd
 
-import csv
-import requests
+# get spreadsheet from here http://s3-us-west-1.amazonaws.com/umbrella-static/index.html
+# more info https://en.wikipedia.org/wiki/HTTP_451
+
+# contact :- github@jamessawyer.co.uk
+
 import random
+import threading
 import time
+
+import pandas as pd
+import requests
 from fake_useragent import UserAgent
 from termcolor import colored
-import threading
+
 ua = UserAgent()
 
 top_lst = []
@@ -96,17 +85,21 @@ else:
     hosts_to_scan = 1000000
 
 fin = open(r"top-1m.csv")
-cin = csv.reader(fin)
 
-for row in cin:
-    if any(s in str(row[1]) for s in blacklisted_words):
-        print(colored("[-] debug, ignoring..." + str(row[1]), 'red'))
-    else:
-        top_lst.append(row[1])
-fin.close()
+# load into a pandas dataframe
 
-# for each in sorted(top_lst):
-# print (each + "\n")
+cin = pd.read_csv(fin, header=None, names=["rank", "site"])
+
+# convert "site" column to a list
+
+top_lst = cin["site"].tolist()
+
+# remove any items with any of the blacklisted words
+
+for each in top_lst:
+    if any(s in str(each) for s in blacklisted_words):
+        print(colored("[-] debug, ignoring..." + str(each), 'red'))
+        top_lst.remove(each)
 
 headers = {'User-Agent': ua.random}
 # print (headers)
